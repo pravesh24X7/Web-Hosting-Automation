@@ -1,0 +1,11 @@
+---
+- name: Get file from Client Machine
+  hosts: servers
+  task:
+    - name: copying file to server machine
+      copy:
+        src: WebClient@172.31.47.78:~/keys.tar
+        dest: /home/prince/Desktop/keys.tar
+        groups: nobody
+        owner: nobody
+        modw: 0644

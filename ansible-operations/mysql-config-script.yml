@@ -1,0 +1,40 @@
+---
+- name: MySQL configuration script
+  hosts: db_servers
+  become: yes
+  tasks:
+    - name: Installing mysql and dependencies
+      package: 
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - mysql-server
+        - mysql-client
+        - python3-mysqldb
+        - libmysqlclient-dev
+    - name: start and enable mysql service
+      service:
+        name: mysql
+        start: started
+        enabled: yes
+    - name: creating mysql user
+      mysql_user: 
+        name: "{{ db_user }}"
+        password: "{{ db_pass }}"
+        priv: '*.*:ALL'
+        host: '%'
+        state: present
+    - name: enable remote login to mysql 
+      lineinfile:
+        path: /etc/mysql/mysql.conf.d/mysqld.cnf
+        regexp: '^bind-address'
+        line: 'bind-address: 0.0.0.0'
+        backup: yes
+      notify:
+        - Restart mysql
+  handlers:
+    - name: Restart mysql
+      service: 
+        name: mysql
+        state: restarted

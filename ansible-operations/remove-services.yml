@@ -1,0 +1,14 @@
+---
+- name: "REMOVING WEB HOSTING SERVICE FROM MACHINE"
+  hosts: servers
+  become: yes
+  tasks:
+    - service:
+        name: httpd
+        enabled: false
+        state: stopped
+
+    - name: remove httpd package from machine
+      yum:
+        name: httpd
+        state: absent

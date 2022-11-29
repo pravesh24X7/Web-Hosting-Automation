@@ -1,0 +1,27 @@
+---
+- name: Configuring MySQL in Machine
+  hosts: db_servers
+  become: yes
+  tasks:
+    - name: Starting MySQL Service 
+      service:
+        name: mysqld
+        state: started
+        enabled: yes
+    - name: Creating MySQL User
+      mysql_user: 
+        name: " {{ db_user }} "
+        password: " {{ db_pass }} "
+        priv: '*.*:ALL'
+        host: '%'
+        state: present
+    - name: Creating database
+      mysql_db:
+        name: " {{ db_name }} "
+        state: present
+
+  handlers:
+    - name: Restart MySQL
+      service: 
+        name: mysql
+        start: restarted

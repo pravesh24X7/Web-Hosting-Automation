@@ -1,0 +1,10 @@
+---
+- name: Installation of MySQL
+  hosts: db_servers
+  become: yes
+  tasks:
+    - name: Installing MySQL packages
+      yum: 
+        name: mysql-server
+        state: present
+

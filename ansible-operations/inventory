@@ -1,0 +1,7 @@
+[servers]
+
+WebClient@172.31.47.78
+
+
+[db_servers]
+db_controller_node@13.234.75.237

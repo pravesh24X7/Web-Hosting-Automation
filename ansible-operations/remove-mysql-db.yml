@@ -1,0 +1,9 @@
+---
+- name: Removing MySQL from Machine
+  hosts: db_servers
+  become: yes
+  tasks:
+    - name: Uninstalling MySQL ...
+      yum: 
+        name: mysql-servers
+        state: absent 

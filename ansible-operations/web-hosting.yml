@@ -1,0 +1,23 @@
+---
+- name: "WEB HOSTING AUTOMATION"
+  hosts: servers
+  become: yes
+  tasks:
+    - name: Install httpd on machine
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Activating httpd Service on Machine
+      service:
+        name: httpd
+        enabled: true
+        state: started
+
+    - name: Deploying code on host machine
+      copy:
+        src: /sources/index.html
+        dest: /var/www/html/index.html
+        owner: nobody
+        group: nobody
+        mode: 0644
